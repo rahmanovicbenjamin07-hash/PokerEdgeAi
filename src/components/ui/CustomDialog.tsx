@@ -29,15 +29,6 @@ export function Popup({buttonVariant}: {buttonVariant?:"default" | "outline"}) {
     email:"",
     playerSelect:""
   })
-  /*
- const updateForm: Function = (event: ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      [event.target.name]: event.target.value,
-    });
-    console.log(form);
-  };
-*/
 
   const updateEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({
