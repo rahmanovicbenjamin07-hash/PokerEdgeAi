@@ -20,8 +20,8 @@ export function HeroSection () {
                         <p className="text-foreground/90 lg:leading-[100%]  font-inter font-light weight-[300] text-center">PokerEdge is an AI-powered intelligence layer that helps players understand decisions, patterns, and risk in real time, without telling them what to do.</p>
                     </div>
                 </div> 
-                <div className="flex flex-col lg:gap-8 gap-25">
-                    <Popup />                  
+                <div className="flex flex-col items-center lg:gap-8 gap-25">
+                    <Popup buttonVariant="default" btnplaceholder="Request early access"/>                  
                     <p className="font-inter weight-[300] leading-[100%] font-light text-[11px] text-foreground/80">PokerEdge.ai is developed and operated by Biggbird Ltd, Gibraltar</p>
                 </div>
 

@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "./button"
-import axios from "axios";
+import { useMutation } from '@tanstack/react-query';
+import { FormEvent } from "react";
 import {
   Dialog,
   DialogClose,
@@ -12,18 +13,16 @@ import {
   DialogTrigger,
 } from "./dialog"
 import { EmailInput } from "./input"
-import { Label } from "./label"
 import { PlayerTypeSelect } from "./SelectPlayerType"
 import {GOOGLE_SHEET_API_LINK} from "../../googleapi";
-import { error } from "console";
+
 
 interface GoogleSheetForm {
   email:string,
   playerSelect:string,
 }
-
-
-export function Popup({buttonVariant}: {buttonVariant?:"default" | "outline"}) {
+ 
+export function Popup({buttonVariant,btnplaceholder}: {buttonVariant?:"default" | "outline",btnplaceholder?:string}) {
 
   const [form,setForm] = useState<GoogleSheetForm>({
     email:"",
@@ -45,27 +44,42 @@ export function Popup({buttonVariant}: {buttonVariant?:"default" | "outline"}) {
   };
 
 
-  const onSubmitForm: Function = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    if (form.email !== "" && form.playerSelect !== ""){
-      axios
-        .post(GOOGLE_SHEET_API_LINK, form)
-        .then(({ data }) => {
-        })
-        .catch((err) => alert(err.message ));
-    } else {
-      console.log("Log poslije else",form);
+  const mutation = useMutation({
+  mutationFn: async (form: GoogleSheetForm) => {
+    const response = await fetch(GOOGLE_SHEET_API_LINK, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    });
 
+    if (!response.ok) {
+      throw new Error('Failed to submit form');
     }
-  };
 
+    return response.json();
+  },
+  onError: (err: Error) => {
+    alert(err.message);
+  },
+});
 
+const onSubmitForm = (event: FormEvent<HTMLFormElement>): void  => {
+  event.preventDefault();
+
+  if (form.email !== "" && form.playerSelect !== "") {
+    mutation.mutate(form);
+  } else {
+    console.log("Log poslije else", form);
+  }
+};
 
   return (
     <Dialog>
-        <DialogTrigger>
+        <DialogTrigger asChild>
         <Button variant={buttonVariant}>
-          Early Access
+          {btnplaceholder ?? "Request Early Access"}
         </Button>
       </DialogTrigger>
       <DialogContent className="lg:min-h-119.5 min-h-151.75  flex flex-col lg:gap-0! lg:pt-8 pt-13 ">
@@ -82,7 +96,7 @@ export function Popup({buttonVariant}: {buttonVariant?:"default" | "outline"}) {
             We’re opening PokerEdge to a small group of serious players while we refine learning quality, pattern accuracy, and feedback depth.
             </p>
           </div> 
-          <form className="flex flex-col gap-4 items-center lg:mb-7.5 mb-11" onSubmit={(e) => onSubmitForm(e)}>
+          <form className="flex flex-col gap-4 items-center lg:mb-7.5 mb-11" onSubmit={onSubmitForm}>
           <EmailInput name="email" onChange={updateEmail}></EmailInput> 
           <PlayerTypeSelect placeholder="Player Type" onValueChange={handlePlayerSelect} ></PlayerTypeSelect>         
           <Button variant="default" type="submit" className="mt-2">Request Early Access</Button>

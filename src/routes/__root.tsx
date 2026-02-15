@@ -12,6 +12,10 @@ import { seo } from '~/utils/seo';
 import favicon32 from "./SEO-assets/32x32favicon.png";
 import favicon16 from "./SEO-assets/16x16favicon.png";
 import favicon180 from "./SEO-assets/180x180favicon.png";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -62,15 +66,21 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 })
 
+
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const [queryClient] = React.useState(() => new QueryClient())
+
   return (
     <html>
       <head>
         <HeadContent />
       </head>
       <body>
-        <hr />
-        {children}
+        <QueryClientProvider client={queryClient}>
+          <hr />
+          {children}
+        </QueryClientProvider>
+
         <Scripts />
       </body>
     </html>

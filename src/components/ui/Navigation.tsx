@@ -13,7 +13,7 @@ export function Navigation() {
                     <div className="bg-[#42CC52] h-4.5 w-8.5 absolute right-[25%] bottom-[-5%] blur-[44px] rounded-full"></div>  
                 </div>  
                 <div className="lg:block hidden">
-                    <Popup buttonVariant="outline"/> 
+                    <Popup buttonVariant="outline" btnplaceholder="Early"/> 
                 </div>
                             
         </div>
