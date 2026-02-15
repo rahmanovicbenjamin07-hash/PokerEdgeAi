@@ -70,7 +70,9 @@ const onSubmitForm = (event: FormEvent<HTMLFormElement>): void  => {
 
   if (form.email !== "" && form.playerSelect !== "") {
     mutation.mutate(form);
-  } 
+  } else {
+    alert("All fields required!");
+  }
 };
 
   return (
