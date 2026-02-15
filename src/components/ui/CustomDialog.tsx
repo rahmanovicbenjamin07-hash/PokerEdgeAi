@@ -65,7 +65,7 @@ export function Popup({buttonVariant}: {buttonVariant?:"default" | "outline"}) {
     <Dialog>
         <DialogTrigger>
         <Button variant={buttonVariant}>
-          Request Early Access
+          Early Access
         </Button>
       </DialogTrigger>
       <DialogContent className="lg:min-h-119.5 min-h-151.75  flex flex-col lg:gap-0! lg:pt-8 pt-13 ">

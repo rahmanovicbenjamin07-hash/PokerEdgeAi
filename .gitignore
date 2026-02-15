@@ -1,7 +1,7 @@
 node_modules
 package-lock.json
 yarn.lock
-googleapi.ts
+
 
 .DS_Store
 .cache
